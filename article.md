@@ -4,7 +4,7 @@ Databinding is a approach which connects data sources with data consumers and gi
 2. How it worked before databinding
 Before databinding it was natural for Android that to set or get same value from control you should have reference to it firstly. 
 
-``` Java
+```java
 TextView label = (TextView) view.findViewById(R.id.textViewId);
 label.setText("sample text");
 String textFromLabel = label.getText();
