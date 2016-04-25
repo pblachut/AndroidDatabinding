@@ -14,7 +14,8 @@ button.setOnClickListener(new View.OnClickListener() {
     public void onClick(View v) {
         // Perform action on click
     }
-});```
+});
+```
 
 It introduces huge amount of code which was useless from application logic perspective. Of course there are external libraries like [Butter Knife](http://jakewharton.github.io/butterknife/) which helps a lot with this but it does not resolve an issue. Activities and fragments are still strictly bounded to resource layouts and have to carry all the references to controls.
 
