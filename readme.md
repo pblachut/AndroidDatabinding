@@ -144,6 +144,30 @@ When the view would be loaded then layout can automatically read values set in v
 
 Two way databinding
 --------------------------------------------------
-6. How Andorid databinding works under the hood
+
+In more complicated scenarios view model can be possesed by using some factory object. Factory would be resolved for DI container and other dependencies need by view model would be keep there. Factory would expose creating methods which only would take as arguments objects which are specific for each view and which cannot be resolved from DI container.
+
+```java
+
+public class MainViewModelFactory{
+    
+    private ISession session;
+    
+    public MainViewModelFactory(ISession session){
+        this.session = session;
+    }
+    
+    public MainViewModel create(IMainView view){
+        return new MainViewModel(session, view);        
+    }
+}
+
+
+```
+
+How Andorid databinding works under the hood
+--------------------------------------------------
+
+Databinding firstly takes all layouts and looks inside of them binding expressions inside `@{...}` brachets. Then it tries to resolve those expressions into functions and based on them it will generate java code for propper set and get values in the layout controls. There is no magic behind. It is simply code generation similar to that which is in Butterknife or Dagger libraries. But this code generation makes creating layouts more easy. Activites or fragments classes are becoming only dummy linkers between view model and view objects. Only thing which still must be present in activities / fragments is handling navigation.
  
 7. Summary
