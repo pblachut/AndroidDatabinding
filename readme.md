@@ -52,10 +52,9 @@ public class MainViewModel extends BaseObservable {
     
 }
 ```
-Later on you should be able to reference view model class in your layout file.
+Later on you should be able to reference view model class in your layout file. Main tag in the layout file should be `<layout>..</layout>`. 
 
 ```xml
-
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -141,9 +140,15 @@ All those fields can be referenced in layout file.
 
 When the view would be loaded then layout can automatically read values set in view model, without additional code in activity class.
 
+![](oneway.png)
+
 
 Two way databinding
 --------------------------------------------------
+
+To achieve two way databinding it is needed to write some more additional code. Current Google implementation do not support out of the box automatic updates of view model triggered by view. 
+
+To enable automatic updates of view model triggered by changing input of EditTextBox it is needed to create firstly binding adapter class.
 
 In more complicated scenarios view model can be possesed by using some factory object. Factory would be resolved for DI container and other dependencies need by view model would be keep there. Factory would expose creating methods which only would take as arguments objects which are specific for each view and which cannot be resolved from DI container.
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="viewModel" type="piotrek.databinding.MainViewModel"/>
@@ -15,19 +16,21 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context=".MainView">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.name}" />
+            android:text="@{viewModel.name}"
+            android:addTextChangedListener="@{viewModel.nameTextWatcher}"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.subtitle}" />
+            app:textBinding="@{viewModel.description}"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.description}" />
+            android:text="Show view model values"
+            android:onClick="@{viewModel.onButtonClick}"/>
     </LinearLayout>
 </layout>
