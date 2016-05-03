@@ -1,19 +1,15 @@
 package piotrek.databinding;
 
 import android.databinding.BindingAdapter;
-import android.databinding.Observable;
-import android.databinding.ObservableField;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.widget.EditText;
 
 public class EditTextBoxBinding {
 
     @BindingAdapter({"textBinding"})
-    public static void bindEditText(EditText view, final ObservableString text) {
+    public static void bindEditText(EditText view, final BindableString text) {
 
         if (text == null)
-            throw new IllegalArgumentException("ObservableString object cannot be null");
+            throw new IllegalArgumentException("BindableString object cannot be null");
 
         if (view.getTag(R.id.dataBinding) == null){
             view.setTag(R.id.dataBinding, true);

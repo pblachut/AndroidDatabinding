@@ -2,10 +2,10 @@ package piotrek.databinding;
 
 import android.databinding.BaseObservable;
 
-public class ObservableString extends BaseObservable {
+public class BindableString extends BaseObservable {
     private String value;
 
-    public ObservableString(String newValue){
+    public BindableString(String newValue){
         value = newValue;
     }
 

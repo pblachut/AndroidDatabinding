@@ -2,9 +2,12 @@ package piotrek.databinding;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.Observable;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.view.View;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainViewModel extends BaseObservable {
     private String name;
@@ -18,7 +21,13 @@ public class MainViewModel extends BaseObservable {
         };
     }
 
-    public ObservableString description;
+    public BindableString description;
+
+    public BindableBoolean isSelected;
+
+    public BindableDate date;
+
+
     private IMainView view;
 
     @Bindable
@@ -38,6 +47,12 @@ public class MainViewModel extends BaseObservable {
                 .append("\n")
                 .append("Description: ")
                 .append(description.get())
+                .append("\n")
+                .append("Is selected: ")
+                .append(isSelected.get())
+                .append("\n")
+                .append("Date: ")
+                .append(date.get().getTime())
                 .toString();
 
         view.showMessage(message);
@@ -47,6 +62,8 @@ public class MainViewModel extends BaseObservable {
     public MainViewModel(IMainView view){
         this.view = view;
         name = null;
-        description = new ObservableString(null);
+        description = new BindableString(null);
+        isSelected = new BindableBoolean(true);
+        date = new BindableDate(Calendar.getInstance());
     }
 }

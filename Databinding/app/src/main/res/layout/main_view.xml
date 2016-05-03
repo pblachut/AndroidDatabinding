@@ -6,31 +6,50 @@
     <data>
         <variable name="viewModel" type="piotrek.databinding.MainViewModel"/>
     </data>
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context=".MainView">
-
-        <EditText
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.name}"
-            android:addTextChangedListener="@{viewModel.nameTextWatcher}"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context=".MainView">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:textBinding="@{viewModel.description}"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.name}"
+                android:addTextChangedListener="@{viewModel.nameTextWatcher}"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Show view model values"
-            android:onClick="@{viewModel.onButtonClick}"/>
-    </LinearLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:textBinding="@{viewModel.description}"/>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Is selected?"
+                app:checkedBinding="@{viewModel.isSelected}"/>
+
+            <DatePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dateBinding="@{viewModel.date}">
+            </DatePicker>
+
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Show view model values"
+                android:onClick="@{viewModel.onButtonClick}"/>
+        </LinearLayout>
+    </ScrollView>
+
 </layout>
