@@ -1,4 +1,4 @@
-package piotrek.databinding;
+package piotrek.databinding.bindings;
 
 import android.databinding.BindingAdapter;
 import android.widget.DatePicker;
@@ -7,13 +7,16 @@ import android.widget.EditText;
 import java.util.Calendar;
 import java.util.Date;
 
+import piotrek.databinding.BindableType;
+import piotrek.databinding.R;
+
 public class DatePickerBindings {
 
     @BindingAdapter({"dateBinding"})
-    public static void bindEditText(DatePicker view, final BindableDate date) {
+    public static void bindEditText(DatePicker view, final BindableType<Calendar> date) {
 
         if (date == null)
-            throw new IllegalArgumentException("BindableDate object cannot be null");
+            throw new IllegalArgumentException("BindableType<Calendar> object cannot be null");
 
         if (view.getTag(R.id.dataBinding) == null){
             view.setTag(R.id.dataBinding, true);

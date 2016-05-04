@@ -25,7 +25,7 @@ It introduces huge amount of code which was useless from application logic persp
 
 Introducing of databinding gives possibility to implement MVVM pattern on Android. This pattern has been developed by Microsoft and it is variation of MVP pattern.
 
-![](mvvm.svg)
+![](mvvm.png)
 
 Main role in this pattern has view model object which mediates in exchange of data between view and the model. Comunication between view model and the view is made by using databinding. View has possibility to get current value of some data and view model can notify the view that data has changed. View can also pass ui events to view model that user has performed some action (e.g. text in text box has changed or button has been clicked).
 
@@ -81,23 +81,27 @@ protected void onCreate(Bundle savedInstanceState) {
 
 Now view (layout file) and view model class is connected via code behind class (activity class) and later modifications would be done only in view and view model. First of all, all data that would be referenced in view should be defined in view model. One way binding (view can read values from the view model) can be achieved in 3 ways:
 
-- public field
 - public field of ObservableField<> type
-- private field with public getter
+- private field with public getter and setter
 
 ```java
 public class MainViewModel extends BaseObservable {
     private String name;
-    public String subtitle;
     public ObservableField<String> description;
 
     public String getName(){
         return name;
     }
+    
+    public void setName(String newName){
+        if (!Objects.equals(name,newName)) {
+            name = newName;
+            notifyPropertyChanged(piotrek.databinding.BR.name);
+        }
+    }
 
     public MainViewModel(){
         name = "Name of MainViewModel";
-        subtitle = "Subtitle of MainViewModel";
         description = new ObservableField<>("Description of MainViewModel");
     }
 }
@@ -127,20 +131,13 @@ All those fields can be referenced in layout file.
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.subtitle}" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@{viewModel.description}" />
     </LinearLayout>
 </layout>
 
 ```
 
-When the view would be loaded then layout can automatically read values set in view model, without additional code in activity class.
-
-![](oneway.png)
+When the view would be loaded then layout can automatically read values set in view model, without additional code in activity class. The same situation would be when view model would trigger change of the values. UI controls would be automatically updated.
 
 
 Two way databinding

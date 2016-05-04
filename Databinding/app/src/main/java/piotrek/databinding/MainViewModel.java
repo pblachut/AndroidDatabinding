@@ -8,6 +8,7 @@ import android.view.View;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class MainViewModel extends BaseObservable {
     private String name;
@@ -21,11 +22,11 @@ public class MainViewModel extends BaseObservable {
         };
     }
 
-    public BindableString description;
+    public BindableType<String> description;
 
-    public BindableBoolean isSelected;
+    public BindableType<Boolean> isSelected;
 
-    public BindableDate date;
+    public BindableType<Calendar> date;
 
 
     private IMainView view;
@@ -35,10 +36,13 @@ public class MainViewModel extends BaseObservable {
         return name;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setName(String newName){
 
-        notifyPropertyChanged(piotrek.databinding.BR.name);
+        if (!Objects.equals(name,newName)) {
+            name = newName;
+
+            notifyPropertyChanged(piotrek.databinding.BR.name);
+        }
     }
 
     public void onButtonClick(View viewFromButton){
@@ -62,8 +66,8 @@ public class MainViewModel extends BaseObservable {
     public MainViewModel(IMainView view){
         this.view = view;
         name = null;
-        description = new BindableString(null);
-        isSelected = new BindableBoolean(true);
-        date = new BindableDate(Calendar.getInstance());
+        description = new BindableType<>(null);
+        isSelected = new BindableType<>(true);
+        date = new BindableType<>(Calendar.getInstance());
     }
 }

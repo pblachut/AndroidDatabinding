@@ -1,4 +1,4 @@
-package piotrek.databinding;
+package piotrek.databinding.bindings;
 
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableBoolean;
@@ -6,10 +6,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import piotrek.databinding.BindableType;
+import piotrek.databinding.R;
+
 public class CheckboxBindings {
 
     @BindingAdapter({"checkedBinding"})
-    public static void bindCheckBox(CheckBox view, final BindableBoolean isCheckedObject) {
+    public static void bindCheckBox(CheckBox view, final BindableType<Boolean> isCheckedObject) {
 
         if (isCheckedObject == null)
             throw new IllegalArgumentException("ObservableBoolean object cannot be null");
