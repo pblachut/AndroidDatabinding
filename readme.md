@@ -25,7 +25,7 @@ It introduces huge amount of code which was useless from application logic persp
 
 Introducing of databinding gives possibility to implement MVVM pattern on Android. This pattern has been developed by Microsoft and it is variation of MVP pattern.
 
-![](mvvm.png)
+![](mvvm.png?cropResize=300,300)
 
 Main role in this pattern has view model object which mediates in exchange of data between view and the model. Comunication between view model and the view is made by using databinding. View has possibility to get current value of some data and view model can notify the view that data has changed. View can also pass ui events to view model that user has performed some action (e.g. text in text box has changed or button has been clicked).
 
@@ -139,37 +139,58 @@ All those fields can be referenced in layout file.
 
 When the view would be loaded then layout can automatically read values set in view model, without additional code in activity class. The same situation would be when view model would trigger change of the values. UI controls would be automatically updated.
 
+How Andorid databinding works under the hood
+--------------------------------------------------
+
+Databinding firstly takes all layouts and looks inside of them binding expressions inside `@{...}` brachets. Then it tries to resolve those expressions into functions and based on them it will generate java code for propper set and get values in the layout controls. There is no magic behind. It is simply code generation similar to that which is in Butterknife or Dagger libraries. But this code generation makes creating layouts more easy. Activites or fragments classes are becoming only dummy linkers between view model and view objects. 
 
 Two way databinding
 --------------------------------------------------
 
 To achieve two way databinding it is needed to write some more additional code. Current Google implementation do not support out of the box automatic updates of view model triggered by view. 
 
-To enable automatic updates of view model triggered by changing input of EditTextBox it is needed to create firstly binding adapter class.
-
-In more complicated scenarios view model can be possesed by using some factory object. Factory would be resolved for DI container and other dependencies need by view model would be keep there. Factory would expose creating methods which only would take as arguments objects which are specific for each view and which cannot be resolved from DI container.
+To enable automatic updates of view model triggered by changing input of some control it is needed to create firstly binding adapter class. Binding adapter class should be specific for each control. It is caused because each control set their value in different way.
 
 ```java
+public class EditTextBoxBinding {
+    @BindingAdapter({"textBinding"})
+    public static void bindEditText(EditText view, final BindableType<String> text) {
+        if (text == null)
+            throw new IllegalArgumentException("BindableType<String> object cannot be null");
 
-public class MainViewModelFactory{
-    
-    private ISession session;
-    
-    public MainViewModelFactory(ISession session){
-        this.session = session;
-    }
-    
-    public MainViewModel create(IMainView view){
-        return new MainViewModel(session, view);        
+        if (view.getTag(R.id.dataBinding) == null){
+            view.setTag(R.id.dataBinding, true);
+            view.addTextChangedListener(new TrimmedTextWatcher() {
+                @Override
+                public void onTextChanged(String newValue) {
+                    text.set(newValue);
+                }
+            });
+        }
+
+        String textFromView = view.getText().toString();
+        String textFromViewModel = text.get();
+
+        if (!textFromView.equals(textFromViewModel)) {
+            view.setText(textFromViewModel);
+        }
     }
 }
-
-
 ```
 
-How Andorid databinding works under the hood
---------------------------------------------------
+Such defined binding can be used in layout view file. Of course before using it, `public BindableType<String> description` should be defined in view model.
 
-Databinding firstly takes all layouts and looks inside of them binding expressions inside `@{...}` brachets. Then it tries to resolve those expressions into functions and based on them it will generate java code for propper set and get values in the layout controls. There is no magic behind. It is simply code generation similar to that which is in Butterknife or Dagger libraries. But this code generation makes creating layouts more easy. Activites or fragments classes are becoming only dummy linkers between view model and view objects. Only thing which still must be present in activities / fragments is handling navigation.
+```xml
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:textBinding="@{viewModel.description}"/>
+```
+
+After running such code, view model would automatically receiving updates if EditText control input would change. As it is shown `android:text=""` markup property is not used. All work is done by `app:textBinding=""`.
+
+Important thing to mention is that `ObservableField<>` type cannot be used even if it does the same as `BindableType<>` type. The reason is that android databinding framework hides its observability to binding adapter classes and it was done intentionally. 
+
  
-7. Summary
+Summary
+--------------------------------------------------

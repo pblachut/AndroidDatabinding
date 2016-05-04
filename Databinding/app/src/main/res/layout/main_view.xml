@@ -22,12 +22,6 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.name}"
-                android:addTextChangedListener="@{viewModel.nameTextWatcher}"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:textBinding="@{viewModel.description}"/>
 
             <CheckBox
@@ -41,8 +35,6 @@
                 android:layout_height="wrap_content"
                 app:dateBinding="@{viewModel.date}">
             </DatePicker>
-
-
 
             <Button
                 android:layout_width="match_parent"
