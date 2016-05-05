@@ -25,7 +25,7 @@ It introduces huge amount of code which was useless from application logic persp
 
 Introducing of databinding gives possibility to implement MVVM pattern on Android. This pattern has been developed by Microsoft and it is variation of MVP pattern.
 
-![](mvvm.png?cropResize=300,300)
+![](mvvm.png)
 
 Main role in this pattern has view model object which mediates in exchange of data between view and the model. Comunication between view model and the view is made by using databinding. View has possibility to get current value of some data and view model can notify the view that data has changed. View can also pass ui events to view model that user has performed some action (e.g. text in text box has changed or button has been clicked).
 
@@ -42,7 +42,7 @@ android {
 }
 ```
 
-One way databinding
+One way binding
 -------------------------------------------------------
 
 Firstly you should create view model file which would be used in android layout file. Important thing is that view model class should extend BaseObservable class.
@@ -144,7 +144,14 @@ How Andorid databinding works under the hood
 
 Databinding firstly takes all layouts and looks inside of them binding expressions inside `@{...}` brachets. Then it tries to resolve those expressions into functions and based on them it will generate java code for propper set and get values in the layout controls. There is no magic behind. It is simply code generation similar to that which is in Butterknife or Dagger libraries. But this code generation makes creating layouts more easy. Activites or fragments classes are becoming only dummy linkers between view model and view objects. 
 
-Two way databinding
+One time binding
+-------------------------------------------------------
+
+Specific type of one way binding is one time binding. It bases on the fact that value is loaded into view only one time. Later on view would not receive any updates of this value. Such bindings can be used to display some kind of labels or anather texts which are loaded only once.
+
+To use such binding view model should have simple, not observable, public field. Attaching them into view is the same as in one way binding.
+
+Two way binding
 --------------------------------------------------
 
 To achieve two way databinding it is needed to write some more additional code. Current Google implementation do not support out of the box automatic updates of view model triggered by view. 
@@ -178,6 +185,8 @@ public class EditTextBoxBinding {
 }
 ```
 
+In the first part of the method it is checked if binding was already attached into control. If it wasn`t then text changed listener is added which updates the view model value. In the second part of the method two values, from the view and view model are compared. If they are different then it means that value in view model was changed and it must be updated on view.
+
 Such defined binding can be used in layout view file. Of course before using it, `public BindableType<String> description` should be defined in view model.
 
 ```xml
@@ -194,3 +203,7 @@ Important thing to mention is that `ObservableField<>` type cannot be used even 
  
 Summary
 --------------------------------------------------
+
+Android databinding is a step into good direction for eliminating useless parts of codes from the app logic perspective. It gives also possibility to implement MVVM pattern which is very popular in other frameworks and gives alternative for currently most used in Android MVP pattern. 
+
+Of course it is still under development and the biggest drawback is lack of support two way bindings.

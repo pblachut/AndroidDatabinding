@@ -19,6 +19,11 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             tools:context=".MainView">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.label}"/>
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,6 +46,11 @@
                 android:layout_height="wrap_content"
                 android:text="Show view model values"
                 android:onClick="@{viewModel.onButtonClick}"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update view model values"
+                android:onClick="@{viewModel.onUpdateViewModelValuesButtonClick}"/>
         </LinearLayout>
     </ScrollView>
 
