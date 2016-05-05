@@ -79,7 +79,7 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
-Now view (layout file) and view model class is connected via code behind class (activity class) and later modifications would be done only in view and view model. First of all, all data that would be referenced in view should be defined in view model. One way binding (view can read values from the view model) can be achieved in 3 ways:
+Now view (layout file) and view model class is connected via code behind class (activity class) and later modifications would be done only in view and view model. First of all, all data that would be referenced in view should be defined in view model. One way binding (view can read values from the view model) can be achieved in two ways:
 
 - public field of ObservableField<> type
 - private field with public getter and setter
@@ -137,12 +137,7 @@ All those fields can be referenced in layout file.
 
 ```
 
-When the view would be loaded then layout can automatically read values set in view model, without additional code in activity class. The same situation would be when view model would trigger change of the values. UI controls would be automatically updated.
-
-How Andorid databinding works under the hood
---------------------------------------------------
-
-Databinding firstly takes all layouts and looks inside of them binding expressions inside `@{...}` brachets. Then it tries to resolve those expressions into functions and based on them it will generate java code for propper set and get values in the layout controls. There is no magic behind. It is simply code generation similar to that which is in Butterknife or Dagger libraries. But this code generation makes creating layouts more easy. Activites or fragments classes are becoming only dummy linkers between view model and view objects. 
+When the view would be loaded then layout can automatically read values whcih are set in view model, without additional code in activity class. The same situation would be when view model would trigger change of the values. UI controls would be automatically updated.
 
 One time binding
 -------------------------------------------------------
@@ -151,12 +146,17 @@ Specific type of one way binding is one time binding. It bases on the fact that 
 
 To use such binding view model should have simple, not observable, public field. Attaching them into view is the same as in one way binding.
 
+How Andorid databinding works under the hood
+--------------------------------------------------
+
+Databinding firstly takes all layouts and looks for binding expressions inside `@{...}` brachets. Then it tries to resolve those expressions into functions and based on them it will generate java code for propper set and get values in the layout controls. There is no magic behind. It is simply code generation similar to that which is in Butterknife or Dagger libraries. But this code generation makes creating layouts more easy. Activites or fragments classes are becoming only dummy linkers between view model and view (layout) files. 
+
 Two way binding
 --------------------------------------------------
 
-To achieve two way databinding it is needed to write some more additional code. Current Google implementation do not support out of the box automatic updates of view model triggered by view. 
+To achieve two way databinding it is needed to write some more additional code. Current Google implementation does not support out of the box automatic updates of view model triggered by view. 
 
-To enable automatic updates of view model triggered by changing input of some control it is needed to create firstly binding adapter class. Binding adapter class should be specific for each control. It is caused because each control set their value in different way.
+To enable automatic updates of view model triggered by changing input of some control it is needed to create binding adapter class. Binding adapter class should be specific for each control. It is caused because each control set their value in different way.
 
 ```java
 public class EditTextBoxBinding {
@@ -185,7 +185,7 @@ public class EditTextBoxBinding {
 }
 ```
 
-In the first part of the method it is checked if binding was already attached into control. If it wasn`t then text changed listener is added which updates the view model value. In the second part of the method two values, from the view and view model are compared. If they are different then it means that value in view model was changed and it must be updated on view.
+In the first part of the method it is checked if binding was already attached into control. If it wasn`t then text changed listener is added which updates the view model value. In the second part of the method two values, from the view and view model are being compared. If they are different then it means that value in view model was changed and the view must be updated.
 
 Such defined binding can be used in layout view file. Of course before using it, `public BindableType<String> description` should be defined in view model.
 
@@ -207,3 +207,10 @@ Summary
 Android databinding is a step into good direction for eliminating useless parts of codes from the app logic perspective. It gives also possibility to implement MVVM pattern which is very popular in other frameworks and gives alternative for currently most used in Android MVP pattern. 
 
 Of course it is still under development and the biggest drawback is lack of support two way bindings.
+
+Sample app which has two way binding for EditText, Checkbox and DatePicker can be found [here](https://github.com/pblachut/AndroidDatabinding)
+
+Related links about Android databinding:
+[Google Developer guide](http://developer.android.com/tools/data-binding/guide.html)
+[Databinding on Android dev summit 2015](https://www.youtube.com/watch?v=NBbeQMOcnZ0&index=5&list=WL)
+[Radosław Piekarz on droidcon Kraków 2015](https://www.youtube.com/watch?v=5EPbPBarWhI)
