@@ -13,6 +13,8 @@ import java.util.Objects;
 public class MainViewModel extends BaseObservable {
     public String label;
 
+    public ObservableField<String> name;
+
     public BindableType<String> description;
 
     public BindableType<Boolean> isSelected;
@@ -25,6 +27,9 @@ public class MainViewModel extends BaseObservable {
     public void onButtonClick(View viewFromButton){
         String message = new StringBuilder("Description: ")
                 .append(description.get())
+                .append("\n")
+                .append("Name: ")
+                .append(name.get())
                 .append("\n")
                 .append("Label: ")
                 .append(label)
@@ -41,6 +46,7 @@ public class MainViewModel extends BaseObservable {
 
     public void onUpdateViewModelValuesButtonClick(View viewFromButton){
         label += " updated";
+        name.set(name.get() + " updated");
         description.set(description.get() + " updated");
         isSelected.set(!isSelected.get());
 
@@ -55,6 +61,7 @@ public class MainViewModel extends BaseObservable {
     public MainViewModel(IMainView view){
         this.view = view;
         label = "LABEL";
+        name = new ObservableField<>(null);
         description = new BindableType<>(null);
         isSelected = new BindableType<>(true);
         date = new BindableType<>(Calendar.getInstance());

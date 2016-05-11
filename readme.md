@@ -3,8 +3,7 @@ Android databinding
 
 Databinding is an approach which connects data sources with data consumers and gives possibility to automatically update each other. Such approach was already developed for some time in other languages like C# (WPF) or Javascript (Angular, Knockout). Now finally it comes to Android.
 
-How it worked before databinding
-----------------------------------------------------------
+##How it worked before databinding
 
 Before databinding it was natural for Android that to set or get same value from control you should have reference to it firstly. 
 
@@ -42,8 +41,7 @@ android {
 }
 ```
 
-One way binding
--------------------------------------------------------
+##One way binding
 
 Firstly view model class file should be created which would be used in android layout file. Important thing is that view model class should extend BaseObservable class.
 
@@ -140,22 +138,19 @@ All those fields can be referenced in layout file.
 
 When the view would be loaded then layout can automatically read values which are set in view model, without additional code in activity class. The same situation would be when view model would trigger change of the values. UI controls would be automatically updated.
 
-One time binding
--------------------------------------------------------
+##One time binding
 
 Specific type of one way binding is one time binding. It bases on the fact that value is loaded into view only one time. Later on view would not receive any updates of this value. Such bindings can be used to display some kind of labels or another texts which are loaded only once.
 
 To use such binding, view model should have simple, not observable, public field. Attaching them into view is the same as in one way binding.
 
-How Android databinding works under the hood
---------------------------------------------------
+##How Android databinding works under the hood
 
 Databinding first takes all layouts files and looks inside of them for main root `<layout></layout>`. If such was found then it means that it is databinding layout. Later on such databinding layouts are put into layout processor and are transformed into new layouts which are understandable by older versions of android. During processing the layout, `<layout></layout>` tag is being erased and all namespaces inside of it are transferred into first visual child (skipping firstly `<data></data>` tag). Then `android:tag=""` is added to all controls, tag name is generated automatically. Later on all UI controls variables are being created. It is done based on information found in layout file. As a next step, binding expressions inside `@{...}` brackets are being translated into appropriate getters and setters methods. 
 
 As it is shown, there is no magic behind. It is simply code generation, with no reflection, similar to that which is in Butterknife or Dagger libraries. All those things are being done at the compile time.
 
-Two way binding
---------------------------------------------------
+##Two way binding
 
 To achieve two way databinding it is needed to write some more additional code. Current Google implementation does not support out of the box automatic updates of view model triggered by view. 
 
@@ -203,9 +198,7 @@ After running such code, view model would automatically receiving updates if Edi
 
 Important thing to mention is that `ObservableField<>` type cannot be used even if it does the same as `BindableType<>` type. The reason is that android databinding framework hides its observability to binding adapter classes and it was done intentionally. 
 
- 
-Summary
---------------------------------------------------
+##Summary
 
 Android databinding is a step into good direction for eliminating useless parts of code from the app logic perspective. Activities and fragments classes become dummy linkers which do not have any parts of code which manipulates on data. It gives also possibility to implement MVVM pattern which is very popular in other frameworks and gives alternative for currently most used in Android MVP pattern. 
 
@@ -221,3 +214,36 @@ Related links about Android databinding:
 - [Google Developer guide](http://developer.android.com/tools/data-binding/guide.html)
 - [Databinding on Android dev summit 2015](https://www.youtube.com/watch?v=NBbeQMOcnZ0&index=5&list=WL)
 - [Radosław Piekarz on droidcon Kraków 2015](https://www.youtube.com/watch?v=5EPbPBarWhI)
+
+
+##11.05.2016 UPDATE 
+
+After the publication of this text I discovered that two way binding is partially supported in the newest Android Studio 2.1. and the newest gradle 2.1.0. There is no public announcement about this but only [post on Google Software Engineer blog](https://halfthought.wordpress.com/2016/03/23/2-way-data-binding-on-android/) 
+
+There are no much differences of using this binding in comparision to one way binding. View model should have also public `ObservableField<>` type field or public getter and setter. Difference is in the layout file. Instead using `@{...}` like it was in one way binding, `@={...}` symbol should be used. There is no need to define own attributes like it was described in previous chapter.
+
+```xml
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@={viewModel.name}"/>
+```
+
+Main problem of this is that there are only few attributes which are supported by two way binding. It is caused by lack of listeners which can notify databinding framework that something has changed. There are also problems with IDE which does not support all expressions in layout files.
+
+Here is the list of currently supported attributes (get from the [blog](https://halfthought.wordpress.com/2016/03/23/2-way-data-binding-on-android/):
+* AbsListView android:selectedItemPosition
+* CalendarView android:date
+* CompoundButton android:checked
+* DatePicker android:year, android:month, android:day 
+* NumberPicker android:value
+* RadioGroup android:checkedButton
+* RatingBar android:rating
+* SeekBar android:progress
+* TabHost android:currentTab 
+* TextView android:text
+* TimePicker android:hour, android:minute 
+
+Despite that news I still think that it is much better to use classic MVP in more complicated views. Android Databinding has problems of the child age and it needs some time to handle all those issues. 
+
+I`ve updated project on [my github](https://github.com/pblachut/AndroidDatabinding) with the example of this binding.

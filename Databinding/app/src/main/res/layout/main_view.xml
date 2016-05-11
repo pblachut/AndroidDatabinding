@@ -27,6 +27,11 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@={viewModel.name}"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:textBinding="@{viewModel.description}"/>
 
             <CheckBox
@@ -45,12 +50,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Show view model values"
-                android:onClick="@{viewModel.onButtonClick}"/>
+                android:onClick="@{viewModel::onButtonClick}"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Update view model values"
-                android:onClick="@{viewModel.onUpdateViewModelValuesButtonClick}"/>
+                android:onClick="@{viewModel::onUpdateViewModelValuesButtonClick}"/>
         </LinearLayout>
     </ScrollView>
 
