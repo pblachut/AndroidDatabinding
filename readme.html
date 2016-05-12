@@ -164,7 +164,7 @@ button.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickList
 <li><a href="https://www.youtube.com/watch?v=5EPbPBarWhI">Radosław Piekarz on droidcon Kraków 2015</a></li>
 </ul>
 <h2><a id="11052016_UPDATE_217"></a>11.05.2016 UPDATE</h2>
-<p>After the publication of this text I discovered that two way binding is partially supported in the newest Android Studio 2.1. and the newest gradle 2.1.0. There is no public announcement about this but only <a href="https://halfthought.wordpress.com/2016/03/23/2-way-data-binding-on-android/">post on Google Software Engineer blog</a></p>
+<p>After the publication of this text I discovered that two way binding is partially supported in the newest Android Studio 2.1. and the newest gradle 2.1.0. There is no public announcement about this but only <a href="https://halfthought.wordpress.com/2016/03/23/2-way-data-binding-on-android/">post on George Mount blog</a></p>
 <p>There are no much differences of using this binding in comparision to one way binding. View model should have also public <code>ObservableField&lt;&gt;</code> type field or public getter and setter. Difference is in the layout file. Instead using <code>@{...}</code> like it was in one way binding, <code>@={...}</code> symbol should be used. There is no need to define own attributes like it was described in previous chapter.</p>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-title">EditText</span>
     <span class="hljs-attribute">android:layout_width</span>=<span class="hljs-value">"match_parent"</span>
@@ -172,7 +172,7 @@ button.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickList
     <span class="hljs-attribute">android:text</span>=<span class="hljs-value">"@={viewModel.name}"</span>/&gt;</span>
 </code></pre>
 <p>Main problem of this is that there are only few attributes which are supported by two way binding. It is caused by lack of listeners which can notify databinding framework that something has changed. There are also problems with IDE which does not support all expressions in layout files.</p>
-<p>Here is the list of currently supported attributes (get from the <a href="https://halfthought.wordpress.com/2016/03/23/2-way-data-binding-on-android/">blog</a>:</p>
+<p>Here is the list of currently supported attributes (get from the <a href="https://halfthought.wordpress.com/2016/03/23/2-way-data-binding-on-android/">blog</a>:)</p>
 <ul>
 <li>AbsListView android:selectedItemPosition</li>
 <li>CalendarView android:date</li>
