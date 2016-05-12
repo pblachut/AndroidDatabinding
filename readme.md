@@ -217,7 +217,7 @@ Related links about Android databinding:
 
 ## 11.05.2016 UPDATE 
 
-After the publication of this text I discovered that two way binding is partially supported in the newest Android Studio 2.1. and the newest gradle 2.1.0. There is no public announcement about this but only [post on Google Software Engineer blog](https://halfthought.wordpress.com/2016/03/23/2-way-data-binding-on-android/) 
+After the publication of this text I discovered that two way binding is partially supported in the newest Android Studio 2.1. and the newest gradle 2.1.0. There is no public announcement about this but only [post on George Mount blog](https://halfthought.wordpress.com/2016/03/23/2-way-data-binding-on-android/) 
 
 There are no much differences of using this binding in comparision to one way binding. View model should have also public `ObservableField<>` type field or public getter and setter. Difference is in the layout file. Instead using `@{...}` like it was in one way binding, `@={...}` symbol should be used. There is no need to define own attributes like it was described in previous chapter.
 
