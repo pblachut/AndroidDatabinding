@@ -230,7 +230,7 @@ There are no much differences of using this binding in comparision to one way bi
 
 Main problem of this is that there are only few attributes which are supported by two way binding. It is caused by lack of listeners which can notify databinding framework that something has changed. There are also problems with IDE which does not support all expressions in layout files.
 
-Here is the list of currently supported attributes (get from the [blog](https://halfthought.wordpress.com/2016/03/23/2-way-data-binding-on-android/):
+Here is the list of currently supported attributes (get from the [blog](https://halfthought.wordpress.com/2016/03/23/2-way-data-binding-on-android/)):
 * AbsListView android:selectedItemPosition
 * CalendarView android:date
 * CompoundButton android:checked
